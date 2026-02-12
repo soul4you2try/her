@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Maryam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0f1c;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            font-family: 'Crimson Text', serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Gentle starfield */
+        .star-bg {
+            position: fixed;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.3;
+            }
+            50% { 
+                opacity: 0.9;
+            }
+        }
+        
+        /* Letter paper - warmer tones */
+        .paper {
+            background: linear-gradient(to bottom, #faf8f3, #f5f1e8);
+            max-width: 680px;
+            width: 100%;
+            padding: 60px 50px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+            position: relative;
+            animation: fadeIn 2.5s ease-in;
+            border: 1px solid #e8dcc8;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .header {
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(200, 180, 150, 0.3);
+        }
+        
+        .date {
+            font-size: 15px;
+            color: #8b7355;
+            text-align: right;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        
+        .greeting {
+            font-size: 28px;
+            color: #5a4a3a;
+            margin-bottom: 10px;
+            font-style: italic;
+            font-weight: 600;
+        }
+        
+        .content {
+            font-size: 18px;
+            color: #3a3028;
+            line-height: 1.9;
+        }
+        
+        .content p {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        
+        .signature {
+            margin-top: 45px;
+            text-align: left;
+            font-size: 18px;
+            color: #5a4a3a;
+            font-style: italic;
+        }
+        
+        .signature p {
+            margin: 10px 0;
+        }
+        
+        .signature .name {
+            font-size: 22px;
+            margin-top: 15px;
+        }
+        
+        .ps {
+            margin-top: 35px;
+            font-size: 15px;
+            color: #6b5b4a;
+            font-style: italic;
+            padding-top: 25px;
+            border-top: 1px dashed rgba(150, 130, 110, 0.3);
+        }
+        
+        /* Music player - subtle */
+        .music-btn {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 55px;
+            height: 55px;
+            background: rgba(250, 248, 243, 0.9);
+            border: 1px solid rgba(200, 180, 150, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #5a4a3a;
+            font-size: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .music-btn:hover {
+            background: rgba(250, 248, 243, 1);
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .paper {
+                padding: 40px 30px;
+            }
+            
+            .greeting {
+                font-size: 24px;
+            }
+            
+            .content {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars -->
+    <script>
+        for(let i = 0; i < 150; i++) {
+            let star = document.createElement('div');
+            star.className = 'star-bg';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            
+            let size = Math.random() < 0.8 ? (Math.random() * 1.5 + 0.5) : (Math.random() * 2 + 1.5);
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(star);
+        }
+    </script>
+    
+    <audio id="bgMusic" loop>
+        <source src="say-yes-to-heaven.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        <span id="musicIcon">♪</span>
+    </div>
+    
+    <div class="paper">
+        <div class="header">
+            <div class="date">14th February 2026</div>
+            <div class="greeting">To <span id="name"></span>,</div>
+        </div>
+        
+        <div class="content">
+           <p> 
+            I miss you. I wish i was there with you.  
+        </p>
+
+        <p>
+            
+        </p>
+            
+            <div class="signature">
+                <p>forever yours,</p>
+                <p class="name">[sultan]</p>
+            </div>
+            
+            <div class="ps">
+                p.s. — i made this little website for you because i wanted to give you something that lasts longer than flowers. something you can come back to whenever you miss me. the stars seemed fitting for us — far apart but always under the same sky. i love you more than words can say.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const name = localStorage.getItem('userName') || 'maryam';
+        document.getElementById('name').textContent = name;
+        
+        const music = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+        
+        window.addEventListener('load', () => {
+            music.play().then(() => {
+                isPlaying = true;
+                musicIcon.textContent = '♫';
+            }).catch(() => {
+                isPlaying = false;
+            });
+        });
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.textContent = '♪';
+                isPlaying = false;
+            } else {
+                music.play();
+                musicIcon.textContent = '♫';
+                isPlaying = true;
+            }
+        }
+        
+        document.addEventListener('click', function() {
+            if (!isPlaying) {
+                music.play().then(() => {
+                    isPlaying = true;
+                    musicIcon.textContent = '♫';
+                }).catch(() => {});
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>

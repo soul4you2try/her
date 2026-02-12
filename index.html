@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, 
+                #0a0d1f 0%, 
+                #1a1535 30%, 
+                #2d1b4e 60%,
+                #4a2b5e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Crimson Text', serif;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Deep starfield with more colors */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+        
+        .star.blue {
+            background: #a8c5ff;
+            box-shadow: 0 0 3px #a8c5ff;
+        }
+        
+        .star.pink {
+            background: #ffb3d9;
+            box-shadow: 0 0 3px #ffb3d9;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.4);
+            }
+        }
+        
+        /* Shooting star */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9), transparent);
+            animation: shoot 3s ease-out infinite;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        }
+        
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-45deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-600px) translateY(600px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Romantic silhouette ground */
+        .silhouette {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, #000000 0%, #000000 20%, transparent 100%);
+            z-index: 1;
+        }
+        
+        /* Glowing moon */
+        .moon {
+            position: absolute;
+            top: 12%;
+            right: 15%;
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle at 35% 35%, #fff9e6, #ffeaa6);
+            border-radius: 50%;
+            box-shadow: 0 0 80px rgba(255, 240, 180, 0.6),
+                        0 0 120px rgba(255, 240, 180, 0.3),
+                        inset -8px -8px 15px rgba(0,0,0,0.1);
+            animation: moonGlow 4s ease-in-out infinite;
+        }
+        
+        @keyframes moonGlow {
+            0%, 100% {
+                box-shadow: 0 0 80px rgba(255, 240, 180, 0.6),
+                           0 0 120px rgba(255, 240, 180, 0.3),
+                           inset -8px -8px 15px rgba(0,0,0,0.1);
+            }
+            50% {
+                box-shadow: 0 0 100px rgba(255, 240, 180, 0.8),
+                           0 0 150px rgba(255, 240, 180, 0.4),
+                           inset -8px -8px 15px rgba(0,0,0,0.1);
+            }
+        }
+        
+        .container {
+            background: rgba(10, 13, 31, 0.7);
+            padding: 50px 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.7);
+            max-width: 450px;
+            width: 90%;
+            animation: fadeIn 2s ease-in;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            position: relative;
+            z-index: 10;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        h1 {
+            color: #f5e6d8;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            font-style: italic;
+        }
+        
+        .subtitle {
+            color: #d4bfa8;
+            font-size: 16px;
+            margin-bottom: 12px;
+            line-height: 1.7;
+            font-style: italic;
+        }
+        
+        .hint {
+            color: #b8a490;
+            font-size: 13px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 17px;
+            border: 1px solid rgba(220, 200, 180, 0.3);
+            border-radius: 10px;
+            margin: 15px 0 20px 0;
+            font-family: 'Crimson Text', serif;
+            text-align: center;
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.05);
+            color: #f5e6d8;
+        }
+        
+        input::placeholder {
+            color: rgba(220, 200, 180, 0.4);
+            font-style: italic;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: rgba(220, 200, 180, 0.6);
+            box-shadow: 0 0 25px rgba(220, 200, 180, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px 30px;
+            background: rgba(220, 200, 180, 0.2);
+            color: #f5e6d8;
+            border: 1px solid rgba(220, 200, 180, 0.4);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Crimson Text', serif;
+            font-weight: 400;
+            transition: all 0.4s ease;
+            letter-spacing: 2px;
+        }
+        
+        button:hover {
+            background: rgba(220, 200, 180, 0.3);
+            border-color: rgba(220, 200, 180, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(220, 200, 180, 0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Create starfield with color variation -->
+    <script>
+        for(let i = 0; i < 350; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            
+            // Add some colored stars
+            if(Math.random() > 0.85) {
+                star.className += Math.random() > 0.5 ? ' blue' : ' pink';
+            }
+            
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            
+            let size = Math.random() < 0.7 ? (Math.random() * 1.5 + 0.5) : (Math.random() * 2.5 + 1.5);
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            star.style.animationDelay = Math.random() * 4 + 's';
+            star.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(star);
+        }
+        
+        // Occasional shooting stars
+        setInterval(() => {
+            if(Math.random() > 0.7) {
+                let shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = Math.random() * 50 + 50 + '%';
+                shootingStar.style.top = Math.random() * 30 + '%';
+                document.body.appendChild(shootingStar);
+                
+                setTimeout(() => shootingStar.remove(), 3000);
+            }
+        }, 4000);
+    </script>
+    
+    <!-- Moon -->
+    <div class="moon"></div>
+    
+    <!-- Ground silhouette with grass -->
+    <div class="silhouette"></div>
+    
+    <div class="container">
+        <h1>for you</h1>
+        <p class="subtitle">my love for you stretches<br>as far as the starry sky</p>
+        <p class="hint">enter your name, my one and only</p>
+        <input type="text" id="nameInput" placeholder="your name..." autofocus>
+        <button onclick="enter()">continue</button>
+    </div>
+    
+    <script>
+        function enter() {
+            const name = document.getElementById('nameInput').value.trim();
+            if(name.toLowerCase() === 'maryam') {
+                localStorage.setItem('userName', name);
+                window.location.href = 'letter.html';
+            } else if(name) {
+                // Wrong name entered
+                document.getElementById('nameInput').style.borderColor = 'rgba(255, 100, 100, 0.8)';
+                document.getElementById('nameInput').value = '';
+                document.getElementById('nameInput').placeholder = 'try again...';
+                
+                // Shake animation
+                document.querySelector('.container').style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.querySelector('.container').style.animation = 'fadeIn 2s ease-in';
+                }, 500);
+            } else {
+                document.getElementById('nameInput').style.borderColor = 'rgba(220, 200, 180, 0.7)';
+                document.getElementById('nameInput').placeholder = 'please enter your name...';
+            }
+        }
+        
+        document.getElementById('nameInput').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                enter();
+            }
+        });
+    </script>
+</body>
+</html>
