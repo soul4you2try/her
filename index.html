@@ -19,15 +19,12 @@
                 #2d1b4e 60%,
                 #4a2b5e 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-family: 'Crimson Text', serif;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
         
-        /* Deep starfield with more colors */
+        /* Stars */
         .star {
             position: absolute;
             background: white;
@@ -56,44 +53,8 @@
             }
         }
         
-        /* Shooting star */
-        .shooting-star {
-            position: absolute;
-            width: 2px;
-            height: 100px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.9), transparent);
-            animation: shoot 3s ease-out infinite;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-        }
-        
-        @keyframes shoot {
-            0% {
-                transform: translateX(0) translateY(0) rotate(-45deg);
-                opacity: 0;
-            }
-            5% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(-600px) translateY(600px) rotate(-45deg);
-                opacity: 0;
-            }
-        }
-        
-        /* Romantic silhouette ground */
-        .silhouette {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 150px;
-            background: linear-gradient(to top, #000000 0%, #000000 20%, transparent 100%);
-            z-index: 1;
-        }
-        
-        /* Glowing moon */
         .moon {
-            position: absolute;
+            position: fixed;
             top: 12%;
             right: 15%;
             width: 90px;
@@ -104,6 +65,7 @@
                         0 0 120px rgba(255, 240, 180, 0.3),
                         inset -8px -8px 15px rgba(0,0,0,0.1);
             animation: moonGlow 4s ease-in-out infinite;
+            z-index: 1;
         }
         
         @keyframes moonGlow {
@@ -117,6 +79,35 @@
                            0 0 150px rgba(255, 240, 180, 0.4),
                            inset -8px -8px 15px rgba(0,0,0,0.1);
             }
+        }
+        
+        /* Landing page */
+        #landing {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.5s ease-out;
+            z-index: 100;
+        }
+        
+        #landing.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .silhouette {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, #000000 0%, #000000 20%, transparent 100%);
+            z-index: 1;
         }
         
         .container {
@@ -143,12 +134,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-            20%, 40%, 60%, 80% { transform: translateX(10px); }
         }
         
         h1 {
@@ -227,16 +212,154 @@
         button:active {
             transform: translateY(0);
         }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        /* Letter page */
+        #letterPage {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            opacity: 0;
+            transition: opacity 2s ease-in;
+            pointer-events: none;
+        }
+        
+        #letterPage.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .paper {
+            background: linear-gradient(to bottom, #faf8f3, #f5f1e8);
+            max-width: 680px;
+            width: 100%;
+            padding: 60px 50px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+            position: relative;
+            border: 1px solid #e8dcc8;
+        }
+        
+        .header {
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(200, 180, 150, 0.3);
+        }
+        
+        .date {
+            font-size: 15px;
+            color: #8b7355;
+            text-align: right;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        
+        .greeting {
+            font-size: 28px;
+            color: #5a4a3a;
+            margin-bottom: 10px;
+            font-style: italic;
+            font-weight: 600;
+        }
+        
+        .content {
+            font-size: 18px;
+            color: #3a3028;
+            line-height: 1.9;
+        }
+        
+        .content p {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        
+        .signature {
+            margin-top: 45px;
+            text-align: left;
+            font-size: 18px;
+            color: #5a4a3a;
+            font-style: italic;
+        }
+        
+        .signature p {
+            margin: 10px 0;
+        }
+        
+        .signature .name {
+            font-size: 22px;
+            margin-top: 15px;
+        }
+        
+        .ps {
+            margin-top: 35px;
+            font-size: 15px;
+            color: #6b5b4a;
+            font-style: italic;
+            padding-top: 25px;
+            border-top: 1px dashed rgba(150, 130, 110, 0.3);
+        }
+        
+        .music-btn {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 55px;
+            height: 55px;
+            background: rgba(250, 248, 243, 0.9);
+            border: 1px solid rgba(200, 180, 150, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #5a4a3a;
+            font-size: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .music-btn.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .music-btn:hover {
+            background: rgba(250, 248, 243, 1);
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .paper {
+                padding: 40px 30px;
+            }
+            
+            .greeting {
+                font-size: 24px;
+            }
+            
+            .content {
+                font-size: 17px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Create starfield with color variation -->
+    <!-- Stars -->
     <script>
         for(let i = 0; i < 350; i++) {
             let star = document.createElement('div');
             star.className = 'star';
             
-            // Add some colored stars
             if(Math.random() > 0.85) {
                 star.className += Math.random() > 0.5 ? ' blue' : ' pink';
             }
@@ -252,48 +375,118 @@
             star.style.animationDuration = (Math.random() * 3 + 3) + 's';
             document.body.appendChild(star);
         }
-        
-        // Occasional shooting stars
-        setInterval(() => {
-            if(Math.random() > 0.7) {
-                let shootingStar = document.createElement('div');
-                shootingStar.className = 'shooting-star';
-                shootingStar.style.left = Math.random() * 50 + 50 + '%';
-                shootingStar.style.top = Math.random() * 30 + '%';
-                document.body.appendChild(shootingStar);
-                
-                setTimeout(() => shootingStar.remove(), 3000);
-            }
-        }, 4000);
     </script>
     
-    <!-- Moon -->
     <div class="moon"></div>
     
-    <!-- Ground silhouette with grass -->
-    <div class="silhouette"></div>
+    <!-- Audio -->
+    <audio id="bgMusic" loop>
+        <source src="aura.mp3" type="audio/mpeg">
+    </audio>
     
-    <div class="container">
-        <h1>for you</h1>
-        <p class="subtitle">my love for you stretches<br>as far as the starry sky</p>
-        <p class="hint">enter your name, my one and only</p>
-        <input type="text" id="nameInput" placeholder="your name..." autofocus>
-        <button onclick="enter()">continue</button>
+    <!-- Music button -->
+    <div class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        <span id="musicIcon">♪</span>
+    </div>
+    
+    <!-- Landing page -->
+    <div id="landing">
+        <div class="silhouette"></div>
+        <div class="container">
+            <h1>for you</h1>
+            <p class="subtitle">my love for you stretches<br>as far as the starry sky</p>
+            <p class="hint">enter your name, my one and only</p>
+            <input type="text" id="nameInput" placeholder="your name..." autofocus>
+            <button onclick="enter()">continue</button>
+        </div>
+    </div>
+    
+    <!-- Letter page -->
+    <div id="letterPage">
+        <div class="paper">
+            <div class="header">
+                <div class="date">14th February 2026</div>
+                <div class="greeting">To <span id="name"></span>,</div>
+            </div>
+            
+            <div class="content">
+                <p> 
+                    My first and final keeper of my heart. I am so happy that you're in my life once again.
+                    This feels different from before. A good type of different. I'm grateful just to have you in my life in any way; as a friend, as anything. 
+                    But having you as my lover, as mine? That's all I ever wanted.
+                </p>
+                
+                <p>
+                    I have these nights where when I'm alone with my thoughts, 
+                    I smile thinking about how lucky i am, how unreal this all feels, yet feels perfectly real at the same time. Like this is how it's supposed to be.
+                </p>
+
+                <p>
+                    I love you more than ever. And that's why it hurts sometimes, not being able to see you; not being able to touch you. 
+                    I never knew physical touch meant this much to me until you became mine. Now being apart from you just doesn't feel right. 
+                    And I'm not sure if it's just me, but it seems everywhere I go now, I see couples. I can't unsee them. THEY'RE EVERYWHERE.
+                    And it's annoying because it reminds me of our distance. I wanna go on walks, go to the beach, the park... 
+                    I literally don't care where we go as long as it's me and you.
+                </p>
+
+                <p>
+                    Isn't it funny how we became each other's, and almost immediately faced our first obstacle: distance? 
+                    At first, I saw it as my enemy. In some ways, I still do. But when I remind myself how temporary this is, 
+                    how these months will pass, it becomes easier to breathe. Some days feel harder than others, I'll be honest. 
+                    But anything worth having is worth waiting for. And you are worth everything to me. That's how I know you're the one for me. 
+                    I don't know how I went years without you. Now I can't imagine a single day without talking to you.
+                </p>
+
+                <p>
+                    That was supposed to be the end of the letter. But I still have more to say. 
+                    You make me smile just by looking at you. I still get nervous sometimes when we talk. 
+                    I get upset when you're not in my arms. You make everything feel right.
+                    And I wake up every morning with a smile on my face knowing I'll see your message first thing. 
+                </p>
+                
+                <p>
+                    Happy Valentines Day. I love you my darling, My one and only.
+                </p>
+                
+                <div class="signature">
+                    <p>forever yours,</p>
+                    <p class="name">[sultan]</p>
+                </div>
+                
+                <div class="ps">
+                    p.s. — the stars seemed fitting for us. far apart but always under the same sky. i love you more than words can say. 
+                </div>
+            </div>
+        </div>
     </div>
     
     <script>
         function enter() {
             const name = document.getElementById('nameInput').value.trim();
             if(name.toLowerCase() === 'maryam') {
-                localStorage.setItem('userName', name);
-                window.location.href = 'letter.html';
+                // Fade out landing page
+                document.getElementById('landing').classList.add('hidden');
+                
+                // Show letter page after delay
+                setTimeout(() => {
+                    document.getElementById('letterPage').classList.add('visible');
+                    document.getElementById('musicBtn').classList.add('visible');
+                    document.getElementById('name').textContent = name;
+                    document.body.style.background = '#0a0f1c';
+                    
+                    // Start music
+                    music.play().then(() => {
+                        isPlaying = true;
+                        musicIcon.textContent = '♫';
+                    }).catch(() => {});
+                }, 1500);
+                
             } else if(name) {
-                // Wrong name entered
+                // Wrong name
                 document.getElementById('nameInput').style.borderColor = 'rgba(255, 100, 100, 0.8)';
                 document.getElementById('nameInput').value = '';
                 document.getElementById('nameInput').placeholder = 'try again...';
                 
-                // Shake animation
                 document.querySelector('.container').style.animation = 'shake 0.5s';
                 setTimeout(() => {
                     document.querySelector('.container').style.animation = 'fadeIn 2s ease-in';
@@ -309,6 +502,23 @@
                 enter();
             }
         });
+        
+        // Music control
+        const music = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.textContent = '♪';
+                isPlaying = false;
+            } else {
+                music.play();
+                musicIcon.textContent = '♫';
+                isPlaying = true;
+            }
+        }
     </script>
 </body>
 </html>
