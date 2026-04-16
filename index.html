@@ -443,9 +443,78 @@
             outline-offset: -3px;
         }
 
+        /* ── Taskbar ── */
+        .taskbar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 28px;
+            background: #c0c0c0;
+            border-top: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            gap: 3px;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .taskbar.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .start-btn {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            padding: 1px 8px;
+            font-family: 'Tahoma', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: default;
+            height: 20px;
+            user-select: none;
+        }
+        .taskbar-msg-btn {
+            font-family: 'Tahoma', sans-serif;
+            font-size: 11px;
+            padding: 1px 10px;
+            border: 1px solid;
+            border-color: #808080 #fff #fff #808080;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            user-select: none;
+            background: #c0c0c0;
+            animation: taskbar-flash 1s ease-in-out 3;
+        }
+        .taskbar-msg-btn:hover { background: #d4d0c8; }
+        .taskbar-msg-btn:active { border-color: #fff #808080 #808080 #fff; }
+        @keyframes taskbar-flash {
+            0%, 100% { background: #c0c0c0; }
+            50% { background: #000080; color: #fff; }
+        }
+        .t-clock {
+            margin-left: auto;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #808080 #fff #fff #808080;
+            padding: 1px 8px;
+            font-family: 'Tahoma', sans-serif;
+            font-size: 11px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+        }
+
         .music-btn {
             position: fixed;
-            bottom: 35px;
+            bottom: 40px;
             right: 35px;
             width: 55px;
             height: 55px;
@@ -608,7 +677,7 @@
 
                 <p>
                     Happy Valentines Day. I love you my darling, My one and only.
-                </p>S
+                </p>
 
                 <div class="signature">
                     <p>forever yours,</p>
@@ -638,6 +707,7 @@
                 setTimeout(() => {
                     document.getElementById('letterPage').classList.add('visible');
                     document.getElementById('musicBtn').classList.add('visible');
+                    document.getElementById('taskbar').classList.add('visible');
                     document.getElementById('name').textContent = name;
                     document.body.style.background = '#0a0f1c';
 
@@ -680,10 +750,6 @@
             }
         });
 
-        function dismissDialog() {
-            document.getElementById('winOverlay').classList.remove('show');
-        }
-
         // Music control
         const music = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
@@ -700,6 +766,33 @@
                 isPlaying = true;
             }
         }
+
+        function openDialog() {
+            document.getElementById('winOverlay').classList.add('show');
+        }
+
+        function dismissDialog() {
+            document.getElementById('winOverlay').classList.remove('show');
+        }
+
+        // Taskbar clock
+        function updateClock() {
+            const d = new Date(); let h = d.getHours();
+            const m = d.getMinutes().toString().padStart(2,'0');
+            const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+            document.getElementById('taskClock').textContent = h + ':' + m + ' ' + ap;
+        }
+        updateClock();
+        setInterval(updateClock, 30000);
     </script>
+
+    <!-- Taskbar (shown after entering name) -->
+    <div class="taskbar" id="taskbar">
+        <div class="start-btn">⊞ Start</div>
+        <div class="taskbar-msg-btn" onclick="openDialog()">💌 new message (1)</div>
+        <div class="t-clock" id="taskClock">12:00 PM</div>
+    </div>
+
 </body>
 </html>
+    
