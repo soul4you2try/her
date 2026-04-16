@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 months 💝 — for maryam</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #0e0018;
+            background-image:
+                radial-gradient(circle at 10% 80%, rgba(140, 0, 200, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 90% 10%, rgba(255, 20, 147, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(60, 0, 100, 0.3) 0%, transparent 70%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Scanlines */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 2px,
+                rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px
+            );
+            pointer-events: none;
+            z-index: 998;
+        }
+
+        .pixel-star {
+            position: fixed;
+            color: rgba(255,255,255,0.22);
+            font-size: 11px;
+            animation: float-star 7s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes float-star {
+            0%,100%{ transform:translateY(0) rotate(0deg); opacity:.15; }
+            50%    { transform:translateY(-12px) rotate(25deg); opacity:.5; }
+        }
+
+        .desktop {
+            min-height: calc(100vh - 28px);
+            padding: 18px 16px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .desktop-header {
+            text-align: center;
+            color: #d580ff;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 12px rgba(213,128,255,.7), 0 0 25px rgba(213,128,255,.3);
+            margin-bottom: 2px;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .cursor { animation: blink 1s step-end infinite; }
+
+        /* ── Win98 chrome ── */
+        .win-window {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            box-shadow: 2px 2px 8px rgba(0,0,0,.7);
+        }
+
+        .title-bar {
+            background: linear-gradient(to right, #0a246a 0%, #3a6ea5 60%, #a6caf0 100%);
+            padding: 3px 4px 3px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 22px;
+        }
+        .title-bar-text {
+            color: #fff;
+            font-family: 'Tahoma','Arial',sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,.4);
+            letter-spacing: .3px;
+        }
+        .title-bar-controls { display:flex; gap:2px; }
+        .tb-btn {
+            width:16px; height:14px;
+            background:#c0c0c0;
+            border:1px solid; border-color:#fff #808080 #808080 #fff;
+            font-size:9px; display:flex; align-items:center; justify-content:center;
+            cursor:pointer; color:#000; font-weight:bold; user-select:none;
+        }
+        .tb-btn:active { border-color:#808080 #fff #fff #808080; }
+
+        /* Notepad menu */
+        .menu-bar {
+            background:#c0c0c0; padding:2px 6px;
+            border-bottom:1px solid #808080; display:flex;
+        }
+        .menu-item {
+            font-family:'Tahoma','Arial',sans-serif; font-size:11px;
+            padding:2px 8px; cursor:pointer; color:#000; user-select:none;
+        }
+        .menu-item:hover { background:#000080; color:#fff; }
+
+        /* Letter window */
+        .letter-window { width: min(680px,100%); }
+
+        .notepad-area {
+            background:#fffffa; padding:28px 32px;
+            border:2px solid; border-color:#808080 #fff #fff #808080;
+            max-height:400px; overflow-y:auto;
+            font-family:'Courier New',Courier,monospace;
+            font-size:13.5px; line-height:2; color:#111; white-space:pre-wrap;
+        }
+        .notepad-area::-webkit-scrollbar { width:16px; }
+        .notepad-area::-webkit-scrollbar-track { background:#c0c0c0; }
+        .notepad-area::-webkit-scrollbar-thumb {
+            background:#c0c0c0; border:2px solid; border-color:#fff #808080 #808080 #fff;
+        }
+
+        .status-bar {
+            background:#c0c0c0; padding:2px 5px; display:flex; gap:4px;
+            border-top:1px solid #808080;
+        }
+        .status-item {
+            font-family:'Tahoma','Arial',sans-serif; font-size:11px; padding:1px 5px;
+            border:1px solid; border-color:#808080 #fff #fff #808080; flex:1;
+        }
+
+        /* ── WinAmp ── */
+        .winamp { width: min(280px,100%); }
+        .winamp .title-bar {
+            background: linear-gradient(to right, #2e0054 0%, #6b00b5 60%, #b36fe0 100%);
+        }
+        .winamp-body { background:#1a1a1a; padding:7px; }
+
+        .winamp-screen {
+            background:#0d0d0d;
+            border:2px solid; border-color:#000 #3a3a3a #3a3a3a #000;
+            padding:7px 9px 6px; margin-bottom:6px; height:68px;
+            position:relative; overflow:hidden;
+        }
+        .song-marquee-wrap { overflow:hidden; width:100%; height:18px; margin-bottom:2px; }
+        .song-marquee-inner {
+            display:inline-block; white-space:nowrap;
+            color:#00e600; font-family:'Courier New',monospace; font-size:11px;
+            text-shadow:0 0 5px #00e600; animation:none;
+        }
+        .song-marquee-inner.scrolling { animation: marquee-scroll 8s linear infinite; }
+        .song-marquee-inner.pink-mode { color:#ff69b4; text-shadow:0 0 8px #ff69b4; }
+        @keyframes marquee-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+        .time-counter {
+            color:#00e600; font-family:'VT323',monospace; font-size:30px; line-height:1;
+            text-align:right; text-shadow:0 0 8px #00e600; letter-spacing:2px;
+        }
+        .time-counter.pink-mode { color:#ff69b4; text-shadow:0 0 10px #ff69b4; }
+
+        .status-dot {
+            position:absolute; top:7px; right:9px; width:8px; height:8px;
+            border-radius:50%; background:#2a2a2a; border:1px solid #111;
+        }
+        .status-dot.on {
+            background:#ff69b4; box-shadow:0 0 8px #ff69b4;
+            animation:dot-pulse 1.2s ease-in-out infinite;
+        }
+        @keyframes dot-pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+        .prog-wrap {
+            background:#111; border:1px solid; border-color:#000 #2a2a2a #2a2a2a #000;
+            height:10px; margin-bottom:7px; cursor:pointer;
+        }
+        .prog-fill {
+            height:100%; width:0%;
+            background:linear-gradient(to right,#00a800,#00e600); transition:width .3s;
+        }
+        .prog-fill.pink-mode { background:linear-gradient(to right,#b8007a,#ff69b4); }
+
+        .winamp-controls {
+            display:flex; align-items:center; justify-content:center;
+            gap:3px; margin-bottom:7px;
+        }
+        .w-btn {
+            background:#232323; border:1px solid; border-color:#3d3d3d #111 #111 #3d3d3d;
+            color:#aaa; font-size:10px; height:22px; width:30px;
+            display:flex; align-items:center; justify-content:center;
+            cursor:pointer; user-select:none; font-family:'Courier New',monospace;
+            transition:color .15s;
+        }
+        .w-btn:hover { color:#ff69b4; border-color:#555 #111 #111 #555; }
+        .w-btn:active { border-color:#111 #3d3d3d #3d3d3d #111; }
+
+        .w-btn.play {
+            width:44px; height:26px; font-size:15px;
+            background:#1e0033; border-color:#6a1a9a #1a0025 #1a0025 #6a1a9a;
+            color:#d580ff; text-shadow:0 0 6px #d580ff;
+        }
+        .w-btn.play:hover {
+            background:#2e0048; color:#ff69b4;
+            box-shadow:0 0 10px rgba(255,105,180,.35);
+        }
+
+        /* lyrics toggle button */
+        .lyr-toggle-row {
+            display:flex; align-items:center; justify-content:space-between;
+            margin-bottom:6px;
+        }
+        .lyr-btn {
+            background:#1a0028;
+            border:1px solid; border-color:#6a1a9a #1a0025 #1a0025 #6a1a9a;
+            color:#b36fe0; font-family:'Courier New',monospace; font-size:10px;
+            padding:2px 8px; cursor:pointer; letter-spacing:1px;
+            transition:all .15s; user-select:none; height:20px;
+            display:flex; align-items:center; gap:4px;
+        }
+        .lyr-btn:hover { color:#ff69b4; background:#2a003a; box-shadow:0 0 6px rgba(255,105,180,.25); }
+        .lyr-btn.active { color:#ff69b4; border-color:#ff69b4 #6a1a9a #6a1a9a #ff69b4; }
+
+        .vol-row { display:flex; align-items:center; gap:5px; }
+        .vol-label-txt { color:#555; font-family:'Courier New',monospace; font-size:9px; min-width:22px; }
+        .vol-wrap { flex:1; background:#111; border:1px solid #000; height:7px; cursor:pointer; }
+        .vol-fill { height:100%; width:70%; background:linear-gradient(to right,#9b00cc,#d580ff); }
+        .vol-pct  { color:#555; font-family:'Courier New',monospace; font-size:9px; min-width:28px; text-align:right; }
+
+        /* ── CMD lyrics window ── */
+        .cmd-window {
+            width: min(520px, 100%);
+            display: none;
+        }
+        .cmd-window.open { display: block; }
+
+        .cmd-window .title-bar {
+            background: linear-gradient(to right, #000000 0%, #333 60%, #555 100%);
+        }
+
+        .cmd-body {
+            background: #0c0c0c;
+            padding: 10px 14px 14px;
+            min-height: 200px;
+            max-height: 320px;
+            overflow-y: auto;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        .cmd-body::-webkit-scrollbar { width: 12px; }
+        .cmd-body::-webkit-scrollbar-track { background: #1a1a1a; }
+        .cmd-body::-webkit-scrollbar-thumb {
+            background: #333;
+            border: 1px solid #555;
+        }
+
+        /* path line at top */
+        .cmd-path {
+            color: #808080;
+            margin-bottom: 6px;
+            font-size: 11px;
+        }
+
+        /* each lyric line */
+        .cmd-line {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            min-height: 22px;
+        }
+        .cmd-prompt {
+            color: #444;
+            flex-shrink: 0;
+            font-size: 11px;
+            margin-top: 1px;
+        }
+        .cmd-text {
+            color: #c8c8c8; /* default: grey */
+            transition: color .3s;
+        }
+        /* active (currently typing) line */
+        .cmd-line.active .cmd-text { color: #ff69b4; text-shadow: 0 0 6px rgba(255,105,180,.5); }
+        /* lines that already passed */
+        .cmd-line.past   .cmd-text { color: #808080; }
+
+        /* blinking cursor at end of active line */
+        .cmd-caret {
+            display: inline-block;
+            width: 8px; height: 13px;
+            background: #ff69b4;
+            margin-left: 1px;
+            vertical-align: middle;
+            animation: blink .8s step-end infinite;
+        }
+        .cmd-caret.hidden { display: none; }
+
+        /* empty line spacer */
+        .cmd-blank { height: 10px; }
+
+        /* cmd status bar */
+        .cmd-status {
+            background: #c0c0c0;
+            padding: 1px 6px;
+            border-top: 1px solid #808080;
+            font-family: 'Tahoma','Arial',sans-serif;
+            font-size: 10px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cmd-status-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #808080; flex-shrink: 0;
+        }
+        .cmd-status-dot.playing { background: #ff69b4; box-shadow: 0 0 4px #ff69b4; }
+
+        /* footer marquee */
+        .footer-marquee {
+            color: rgba(213,128,255,.45);
+            font-family:'VT323',monospace; font-size:15px; letter-spacing:2px;
+            width:100%;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position:fixed; bottom:0; left:0; right:0; height:28px;
+            background:#c0c0c0; border-top:2px solid #fff;
+            display:flex; align-items:center; padding:0 4px; gap:3px; z-index:1000;
+        }
+        .start-btn {
+            background:#c0c0c0; border:2px solid; border-color:#fff #808080 #808080 #fff;
+            padding:1px 8px; font-family:'Tahoma',sans-serif; font-size:11px; font-weight:bold;
+            display:flex; align-items:center; gap:4px; cursor:pointer; height:20px; user-select:none;
+        }
+        .taskbar-item {
+            font-family:'Tahoma',sans-serif; font-size:11px; padding:1px 8px;
+            border:1px solid; border-color:#808080 #fff #fff #808080;
+            height:20px; display:flex; align-items:center; gap:4px; cursor:pointer;
+        }
+        .t-clock {
+            margin-left:auto; background:#c0c0c0;
+            border:1px solid; border-color:#808080 #fff #fff #808080;
+            padding:1px 8px; font-family:'Tahoma',sans-serif; font-size:11px;
+            height:20px; display:flex; align-items:center;
+        }
+
+        .back-link {
+            position:fixed; top:8px; left:10px; z-index:999;
+            color:rgba(213,128,255,.5); font-family:'VT323',monospace;
+            font-size:14px; text-decoration:none; letter-spacing:2px; transition:color .2s;
+        }
+        .back-link:hover { color:#ff69b4; }
+
+        @media(max-width:500px) {
+            .notepad-area { padding:20px 18px; font-size:13px; }
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        const syms=['✦','✧','·','⋆','★','✩','♡','♥','✿','◇'];
+        for(let i=0;i<55;i++){
+            const s=document.createElement('div'); s.className='pixel-star';
+            s.textContent=syms[Math.floor(Math.random()*syms.length)];
+            s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+            s.style.animationDelay=Math.random()*7+'s';
+            s.style.animationDuration=(4+Math.random()*5)+'s';
+            document.body.appendChild(s);
+        }
+    </script>
+
+    <a class="back-link" href="index.html">← back</a>
+
+    <div class="desktop">
+
+        <!-- Header -->
+        <div class="desktop-header">
+            ♡ &nbsp; 3 months with you &nbsp; ♡<span class="cursor">_</span>
+        </div>
+
+        <!-- ── Letter window (Notepad) ── -->
+        <div class="win-window letter-window">
+            <div class="title-bar">
+                <div class="title-bar-text"><span>📝</span> letter.txt — Notepad</div>
+                <div class="title-bar-controls">
+                    <div class="tb-btn">_</div>
+                    <div class="tb-btn">□</div>
+                    <div class="tb-btn">✕</div>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <span class="menu-item">File</span>
+                <span class="menu-item">Edit</span>
+                <span class="menu-item">Format</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="notepad-area">To Maryam,
+
+my mimi. these 3 months have been an experience.
+i've encountered so many new, unfamiliar emotions.
+i'm sure u have too. its been wonderful. wonderfully
+kinda scary? not using scary as a negative connotation.
+more as in, i love it. its powerful. what i feel is
+powerful and new and its making me persevere thru
+things i wouldn't normally. and i do it for us.
+
+u make my life so cool. u make me a better person.
+i've never really been this excited for the future
+before you. you've changed me, but not in some way
+where my personality is different; you've made me pull
+deep into me and bring the positive traits in me to
+come out. u have that kinda impact on me.
+
+life feels a lil more colourful now.
+
+the yearning for you is something i never had felt
+before. i haven't really cared for anyone as i do you.
+
+i know the distance sucks and i know we both wish to
+be with each other in the flesh. but every call never
+bores me. every call. whether a 3 hour convo sesh,
+a 2 hour me not having anything to say and ur helping
+me. 1 hour where we both not feeling it. i love it all.
+i love being with you. and every talk i learn something
+new about you. i fall in love even more. i'm falling
+more and more the more i know you. its so fun.
+
+you're so special to me and u hold dear to my heart.
+i think about you constantly. i think about our future
+together. i think about 3 months later. i think about
+our fingers interlocking, i think about us laughing,
+i think about the hugs, the kisses, i think about my
+hands on ur waist, i think about ur smile.
+
+i get the biggest dopamine hits seeing u smile and with
+joy. it gives me the biggest joy seeing u in ur element.
+i adore ur sides. i love meeting new maryams. the cute
+needy one, the cheeky funny one, the smart gorgeous one.
+all of you just radiate the shine of ur femininity.
+i love you and im so proud of you. of what u have done already, what u plan to do and i see u working towards it so dont feel let down by not feeling ur not progressing or moving as fast as u had hoped to; baby i know u got this; so dont feel too rushed. 
+
+
+i just wanna protect your peace.
+i want u to be able to do all of what u want to do.
+
+we been thru alot already. the boat has been shaky a
+few times here and there. but im ready for it all.
+no boat goes thru the sea unscathed, but its knowing
+what to do when the storms hit cuz they do hit.
+
+first of all i hate it, i hate it when we fight; argue;
+do anything that makes my baby upset. it doesn't feel
+good for both of us i know. but it happens. we are
+both learning about each other everyday and we both
+have our own thoughts and sometimes we can have a
+differing of opinions. but its about communicating and
+learning to understand where we are coming from.
+
+by the end of the day, month, year, century, ur the
+one i want by my side till the endtimes. so all the
+little squabbles, disagreements and etc... i know we
+can work thru it all. ur who i want by me. thru the bad, the good, the fun, the boring; you by my side always.
+i'm so glad to have you in my life. u deserve the world and more; and all i wanna do is spoil my woman with everything. i dont got anything rn but i got alot of hugs and kisses to give hehe.
+
+i love you <333
+
+
+ps: scroll down; just a lil something i've been working on. 
+
+
+                          forever yours,
+                          sultan
+            </div>
+            <div class="status-bar">
+                <div class="status-item">Ln 1, Col 1</div>
+                <div class="status-item" style="flex:0;min-width:90px">100%</div>
+            </div>
+        </div>
+
+        <!-- ── WinAmp player ── -->
+        <div class="win-window winamp">
+            <div class="title-bar">
+                <div class="title-bar-text" style="letter-spacing:1px;"><span>🎵</span> WINAMP</div>
+                <div class="title-bar-controls">
+                    <div class="tb-btn">_</div>
+                    <div class="tb-btn">✕</div>
+                </div>
+            </div>
+            <div class="winamp-body">
+
+                <!-- Screen -->
+                <div class="winamp-screen">
+                    <div class="status-dot" id="statusDot"></div>
+                    <div class="song-marquee-wrap">
+                        <span class="song-marquee-inner" id="songDisplay">» ready «</span>
+                    </div>
+                    <div class="time-counter" id="timeCtr">0:00</div>
+                </div>
+
+                <!-- Progress -->
+                <div class="prog-wrap" id="progWrap">
+                    <div class="prog-fill" id="progFill"></div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="winamp-controls">
+                    <div class="w-btn" onclick="rewind()">|◄</div>
+                    <div class="w-btn play" onclick="togglePlay()" id="playBtnW">▶</div>
+                    <div class="w-btn" onclick="pauseOnly()">⏸</div>
+                    <div class="w-btn" onclick="stopAudio()">■</div>
+                    <div class="w-btn" onclick="forward()">►|</div>
+                </div>
+
+                <!-- Lyrics toggle + volume -->
+                <div class="lyr-toggle-row">
+                    <div class="lyr-btn" id="lyrBtn" onclick="toggleLyrics()">
+                        <span>♪</span> LYRICS
+                    </div>
+                    <div class="vol-row" style="flex:1;margin-left:8px;">
+                        <span class="vol-label-txt">VOL</span>
+                        <div class="vol-wrap" id="volWrap">
+                            <div class="vol-fill" id="volFill"></div>
+                        </div>
+                        <span class="vol-pct" id="volPct">70%</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── CMD lyrics window ── -->
+        <div class="win-window cmd-window" id="cmdWindow">
+            <div class="title-bar" style="background:linear-gradient(to right,#000 0%,#111 60%,#2a2a2a 100%)">
+                <div class="title-bar-text" style="font-family:'Courier New',monospace;letter-spacing:1px;">
+                    <span>🖤</span> C:\love\lyrics.txt
+                </div>
+                <div class="title-bar-controls">
+                    <div class="tb-btn" onclick="toggleLyrics()">_</div>
+                    <div class="tb-btn" onclick="toggleLyrics()">✕</div>
+                </div>
+            </div>
+
+            <div class="cmd-body" id="cmdBody">
+                <div class="cmd-path">Microsoft Windows [Version 5.1.2600]<br>(C) Copyright 1985-2001 Microsoft Corp.</div>
+                <div class="cmd-blank"></div>
+                <div class="cmd-path">C:\love&gt; play lyrics.txt</div>
+                <div class="cmd-blank"></div>
+                <!-- lyric lines injected here by JS -->
+            </div>
+
+            <div class="cmd-status">
+                <div class="cmd-status-dot" id="cmdStatusDot"></div>
+                <span id="cmdStatusTxt">waiting for playback...</span>
+            </div>
+        </div>
+
+        <!-- Footer marquee -->
+        <marquee class="footer-marquee" scrollamount="2">
+            ♡ &nbsp; u a star YES U ARE &nbsp; ♡ &nbsp; the most impressive in the sky &nbsp; ♡ &nbsp; far apart but in my heart &nbsp; ♡ &nbsp; baby im a call away &nbsp; ♡ &nbsp; dont need the sky ill look in ur eyes to stargaze &nbsp; ♡ &nbsp; me nd u a duo we like thunder and some lightening &nbsp; ♡ &nbsp; all the stars aligning my heart where u reside in &nbsp; ♡ &nbsp; THIS IS DIFFERENT NOW &nbsp; ♡ &nbsp; dont care what we doing aslong as we together &nbsp; ♡ &nbsp; every single life i will seek u &nbsp; ♡ &nbsp; don't u feel that me and u truly is just the right fit &nbsp; ♡ &nbsp; gotta put the time in for you baby im in &nbsp; ♡ &nbsp; baby ur the one for me &nbsp; ♡ &nbsp; u a star YES U ARE &nbsp; ♡ &nbsp; the most impressive in the sky &nbsp; ♡ &nbsp; far apart but in my heart &nbsp; ♡ &nbsp; baby im a call away &nbsp; ♡ &nbsp; dont need the sky ill look in ur eyes to stargaze &nbsp; ♡ &nbsp; me nd u a duo we like thunder and some lightening &nbsp; ♡ &nbsp; all the stars aligning my heart where u reside in &nbsp; ♡ &nbsp; THIS IS DIFFERENT NOW &nbsp; ♡ &nbsp; dont care what we doing aslong as we together &nbsp; ♡ &nbsp; every single life i will seek u &nbsp; ♡ &nbsp; don't u feel that me and u truly is just the right fit &nbsp; ♡ &nbsp; gotta put the time in for you baby im in &nbsp; ♡ &nbsp; baby ur the one for me &nbsp; ♡
+        </marquee>
+
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <div class="start-btn">⊞ Start</div>
+        <div class="taskbar-item">📝 letter.txt</div>
+        <div class="taskbar-item">🎵 winamp</div>
+        <div class="taskbar-item" id="tbLyr" style="display:none">🖤 lyrics.txt</div>
+        <div class="t-clock" id="taskClock">12:00 PM</div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="theAudio" src="120days.wav" preload="metadata"></audio>
+
+    <script>
+    // ─────────────────────────────────────────────
+    //  LYRICS — paste your lines here with timestamps (seconds)
+    //  Format: { time: 0, text: "line here" }
+    //  Use text: "" for a blank line / pause gap
+    // ─────────────────────────────────────────────
+    // ─────────────────────────────────────────────
+//  LYRICS — paste this into anniversary.html
+//  replacing the existing LYRICS array
+// ─────────────────────────────────────────────
+    const LYRICS = [
+    { time: 21.7  , text: "i wont see her for 120 days its wild " },
+    { time: 25.0  , text: "i miss my baby im deprived from her smile " },
+    { time: 27.6  , text: "i thought it'd be quick but my love 4 u aint mild " },
+    { time: 30.4  , text: "these 4 months is too much for me when 3 days is a while " },
+    { time: 32.7  , text: "not talked in years but we clicked in a second its a sign " },
+    { time: 35.8  , text: "i know we can work it out; its a test and we'll be fine" },
+    { time: 38.2  , text: "u a star; YES U ARE" },
+    { time: 39.3  , text: "the most impressive in the sky " },
+    { time: 41.3  , text: "far apart; but in my HEART " },
+    { time: 42.5  , text: "i wont let u go up in this life " },
+    { time: 44.5  , text: "or the life after " },
+    { time: 45.6  , text: "always be there by ur side " },
+    { time: 46.4  , text: "cuz even tho im faraway " },
+    { time: 48.3  , text: "baby im a call away " },
+    { time: 50.3  , text: "i love it when we textin and when we talk all day " },
+    { time: 53.0  , text: "u removing all my stress and all my heartache babe " },
+    { time: 55.8  , text: "dont need the sky ill look in ur eyes to stargaze babe<3" },
+    { time: 58.4  , text: "and trust me i know it might be a lot to take " },
+    { time: 61.1  , text: "and u know i aint the most religious man out there " },
+    { time: 64.2  , text: "but since i had you im thinking that god is great " },
+    { time: 66.8  , text: "" },
+    { time: 67.4  , text: "10 MILLION SECONDS IS A WHILE " },
+    { time: 69.6  , text: "fuck it man im stressing cuz i cant be by her side " },
+    { time: 72.3  , text: "especially right now when there is tension on the rise " },
+    { time: 75.2  , text: "cant escape it; cuz the tensions in the sky" },
+    { time: 77.7  , text: "" },
+    { time: 79.2  , text: "i know i gotta do better " },
+    { time: 80.9  , text: "dont care what we doing aslong as we together" },
+    { time: 83.6  , text: "" },
+    { time: 83.9  , text: "i know i gotta do better " },
+    { time: 86.3  , text: "dont care what we doing aslong as we together" },
+    { time: 93.5  , text: "" },
+    { time: 111.1 , text: "fuck man I can’t wait I’m coming back to her " },
+    { time: 114.4 , text: "she is the one I told mum ever since i knew her " },
+    { time: 116.6 , text: "aint call or text her for a half a decade I’m a loser " },
+    { time: 119.8 , text: "she’s my everything she's my baby I can’t lose her " },
+    { time: 122.9 , text: "and we don’t care what they think and that suits us " },
+    { time: 125.6 , text: "Girl I know that you know this is true love" },
+    { time: 128.7 , text: "girl u know that i know that this love true " },
+    { time: 130.6 , text: "and they cant do nun" },
+    { time: 132.1 , text: "" },
+    { time: 133.5 , text: "and it feels like all my friends got it figured out " },
+    { time: 136.4 , text: "i know i gotta swim but scared ill sink and drown " },
+    { time: 138.4 , text: "and it feels like all my life that i been missing out " },
+    { time: 141.4 , text: "she say she loves me>?? im like what is this about?" },
+    { time: 143.1 , text: "" },
+    { time: 144.6 , text: "not used to being cared for; like is this allowed? " },
+    { time: 146.9 , text: "what i gotta be scared for :_( THIS IS DIFFERENT NOW " },
+    { time: 149.9 , text: "soon ill be at the airport! :p time is ticking now " },
+    { time: 152.6 , text: "ready and prepared for everything right now " },
+    { time: 155.1 , text: "" },
+    { time: 155.7 , text: "i won’t see you for 120 days it’s wild!!!" },
+    { time: 158.5 , text: "I miss my baby I’m deprived from her smile " },
+    { time: 161.2 , text: "and when it does get lonely at the nightime" },
+    { time: 163.9 , text: "look at up at the sky and it’s like she's by my side" },
+    { time: 167.0 , text: "baby ur the one for me I wanna do this right and " },
+    { time: 169.3 , text: "me nd u a duo we like thunder and some lightening " },
+    { time: 172.0 , text: "u the first person I truly wanna confide in " },
+    { time: 175.3 , text: "every single life I will seek u every time and " },
+    { time: 178.1 , text: "need u by my side dream of u every night and " },
+    { time: 180.8 , text: "don’t u feel that me and u truly is just the right fit " },
+    { time: 183.3 , text: "all the stars aligning my heart where u reside in" },
+    { time: 186.3 , text: "gotta put the time in for you baby im in" }
+];
+
+    // ─────────────────────────────────────────────
+    const audio    = document.getElementById('theAudio');
+    const playBtnW = document.getElementById('playBtnW');
+    const songDisp = document.getElementById('songDisplay');
+    const timeCtr  = document.getElementById('timeCtr');
+    const progFill = document.getElementById('progFill');
+    const progWrap = document.getElementById('progWrap');
+    const statusDot= document.getElementById('statusDot');
+    const volWrap  = document.getElementById('volWrap');
+    const volFill  = document.getElementById('volFill');
+    const volPct   = document.getElementById('volPct');
+    const cmdBody  = document.getElementById('cmdBody');
+    const cmdStatusDot = document.getElementById('cmdStatusDot');
+    const cmdStatusTxt = document.getElementById('cmdStatusTxt');
+
+    let playing     = false;
+    let lyricIdx    = 0;
+    let typeTimer   = null;
+    let activeLine  = null;
+    let activeCaret = null;
+
+    audio.volume = 0.70;
+
+    // ── helpers ──
+    function fmtTime(s) {
+        const m  = Math.floor(s / 60);
+        const ss = Math.floor(s % 60).toString().padStart(2,'0');
+        return m + ':' + ss;
+    }
+
+    function setPink(on) {
+        timeCtr .classList.toggle('pink-mode', on);
+        progFill.classList.toggle('pink-mode', on);
+        songDisp.classList.toggle('pink-mode', on);
+        statusDot.classList.toggle('on', on);
+        cmdStatusDot.classList.toggle('playing', on);
+    }
+
+    function setMarquee(txt) {
+        const d = txt + '     ' + txt;
+        songDisp.textContent = d;
+        songDisp.classList.toggle('scrolling', txt.length > 28);
+    }
+
+    // ── player controls ──
+    function togglePlay() {
+        playing ? pauseOnly() : (audio.play(), playing=true, syncUI());
+    }
+    function pauseOnly() {
+        audio.pause(); playing=false;
+        playBtnW.textContent='▶'; setPink(false); setMarquee('» paused «');
+        cmdStatusTxt.textContent='paused.';
+        if(activeCaret) activeCaret.classList.add('hidden');
+    }
+    function stopAudio() {
+        audio.pause(); audio.currentTime=0; playing=false;
+        playBtnW.textContent='▶'; progFill.style.width='0%';
+        timeCtr.textContent='0:00'; setPink(false); setMarquee('» ready «');
+        cmdStatusTxt.textContent='stopped.';
+        resetLyrics();
+    }
+    function rewind()  { audio.currentTime=Math.max(0, audio.currentTime-10); }
+    function forward() { audio.currentTime=Math.min(audio.duration||0, audio.currentTime+10); }
+
+    function syncUI() {
+        playBtnW.textContent='⏸'; setPink(true); setMarquee('♫  120 days  ♫');
+        cmdStatusTxt.textContent='now playing...';
+        if(activeCaret) activeCaret.classList.remove('hidden');
+    }
+
+    // ── seek ──
+    progWrap.addEventListener('click', e => {
+        if (!audio.duration) return;
+        audio.currentTime = (e.offsetX / progWrap.offsetWidth) * audio.duration;
+        seekLyrics(audio.currentTime);
+    });
+
+    // ── volume ──
+    volWrap.addEventListener('click', e => {
+        const r=Math.max(0,Math.min(1,e.offsetX/volWrap.offsetWidth));
+        audio.volume=r;
+        volFill.style.width=(r*100)+'%';
+        volPct.textContent=Math.round(r*100)+'%';
+    });
+
+    // ── time update ──
+    audio.addEventListener('timeupdate', () => {
+        timeCtr.textContent=fmtTime(audio.currentTime);
+        if(audio.duration) progFill.style.width=(audio.currentTime/audio.duration*100)+'%';
+        checkLyrics(audio.currentTime);
+    });
+
+    audio.addEventListener('ended', () => {
+        playing=false; playBtnW.textContent='▶'; setPink(false);
+        setMarquee('» ended  ♡ «');
+        cmdStatusTxt.textContent='done.  ♡';
+        if(activeCaret) activeCaret.classList.add('hidden');
+    });
+
+    // ─────────────────────────────────────────────
+    //  LYRICS ENGINE
+    // ─────────────────────────────────────────────
+
+    function resetLyrics() {
+        clearTimeout(typeTimer);
+        // remove all injected lyric lines (keep the path/header divs)
+        const lines = cmdBody.querySelectorAll('.cmd-line, .cmd-blank.injected');
+        lines.forEach(el => el.remove());
+        lyricIdx = 0; activeLine = null; activeCaret = null;
+        cmdStatusTxt.textContent='waiting for playback...';
+    }
+
+    function seekLyrics(t) {
+        // clear everything and replay from the right position
+        resetLyrics();
+        // skip past any lyrics whose time has already passed
+        // we'll fast-inject them without the typewriter effect
+        let i = 0;
+        while(i < LYRICS.length && LYRICS[i].time <= t) {
+            const entry = LYRICS[i];
+            if(entry.text === "") {
+                spawnBlank();
+            } else {
+                const { line, textEl, caret } = spawnLine();
+                textEl.textContent = entry.text;
+                line.classList.remove('active');
+                line.classList.add('past');
+                caret.classList.add('hidden');
+            }
+            i++;
+        }
+        lyricIdx = i;
+        // scroll to bottom
+        cmdBody.scrollTop = cmdBody.scrollHeight;
+    }
+
+    function checkLyrics(t) {
+        if(lyricIdx >= LYRICS.length) return;
+        const next = LYRICS[lyricIdx];
+        if(t >= next.time) {
+            lyricIdx++;
+            if(next.text === "") {
+                spawnBlank();
+            } else {
+                triggerLine(next.text);
+            }
+        }
+    }
+
+    function spawnBlank() {
+        const b = document.createElement('div');
+        b.className = 'cmd-blank injected';
+        cmdBody.appendChild(b);
+    }
+
+    function spawnLine() {
+        const line   = document.createElement('div');
+        line.className = 'cmd-line active';
+
+        const prompt = document.createElement('span');
+        prompt.className = 'cmd-prompt';
+        prompt.textContent = '>';
+
+        const textEl = document.createElement('span');
+        textEl.className = 'cmd-text';
+
+        const caret  = document.createElement('span');
+        caret.className = 'cmd-caret';
+
+        line.appendChild(prompt);
+        line.appendChild(textEl);
+        line.appendChild(caret);
+        cmdBody.appendChild(line);
+
+        return { line, textEl, caret };
+    }
+
+    function triggerLine(text) {
+        // dim the previous active line
+        if(activeLine) {
+            activeLine.classList.remove('active');
+            activeLine.classList.add('past');
+        }
+        if(activeCaret) activeCaret.classList.add('hidden');
+
+        const { line, textEl, caret } = spawnLine();
+        activeLine  = line;
+        activeCaret = caret;
+
+        // scroll to bottom
+        cmdBody.scrollTop = cmdBody.scrollHeight;
+
+        // typewriter
+        let i=0;
+        const speed = text.length > 40 ? 28 : 38; // ms per char
+        function typeChar() {
+            if(i < text.length) {
+                textEl.textContent += text[i++];
+                cmdBody.scrollTop = cmdBody.scrollHeight;
+                typeTimer = setTimeout(typeChar, speed);
+            }
+            // caret stays blinking after done
+        }
+        typeChar();
+    }
+
+    // ─────────────────────────────────────────────
+    //  LYRICS WINDOW TOGGLE
+    // ─────────────────────────────────────────────
+    const cmdWindow = document.getElementById('cmdWindow');
+    const lyrBtn    = document.getElementById('lyrBtn');
+    const tbLyr     = document.getElementById('tbLyr');
+    let lyricsOpen  = false;
+
+    function toggleLyrics() {
+        lyricsOpen = !lyricsOpen;
+        cmdWindow.classList.toggle('open', lyricsOpen);
+        lyrBtn.classList.toggle('active', lyricsOpen);
+        tbLyr.style.display = lyricsOpen ? 'flex' : 'none';
+    }
+
+    // ── taskbar clock ──
+    function updateClock() {
+        const d=new Date(); let h=d.getHours();
+        const m=d.getMinutes().toString().padStart(2,'0');
+        const ap=h>=12?'PM':'AM'; h=h%12||12;
+        document.getElementById('taskClock').textContent=h+':'+m+' '+ap;
+    }
+    updateClock();
+    setInterval(updateClock,30000);
+    </script>
+
+</body>
+</html>

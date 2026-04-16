@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrics Timer — 120 days</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #0e0018;
+            background-image:
+                radial-gradient(circle at 10% 80%, rgba(140,0,200,0.25) 0%, transparent 45%),
+                radial-gradient(circle at 90% 10%, rgba(255,20,147,0.18) 0%, transparent 45%);
+            min-height: 100vh;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            overflow-x: hidden;
+            padding-bottom: 40px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top:0; left:0; right:0; bottom:0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+            pointer-events: none; z-index: 998;
+        }
+
+        .page-header {
+            text-align: center;
+            color: #d580ff;
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 12px rgba(213,128,255,.7);
+            padding: 18px 0 10px;
+        }
+
+        .layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            padding: 0 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Win98 chrome ── */
+        .win-window {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            box-shadow: 2px 2px 8px rgba(0,0,0,.7);
+        }
+        .title-bar {
+            background: linear-gradient(to right, #0a246a 0%, #3a6ea5 60%, #a6caf0 100%);
+            padding: 3px 4px 3px 6px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 22px;
+        }
+        .title-bar-text {
+            color: #fff; font-size: 11px; font-weight: bold;
+            display: flex; align-items: center; gap: 5px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,.4); letter-spacing: .3px;
+        }
+        .title-bar-controls { display: flex; gap: 2px; }
+        .tb-btn {
+            width: 16px; height: 14px; background: #c0c0c0;
+            border: 1px solid; border-color: #fff #808080 #808080 #fff;
+            font-size: 9px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #000; font-weight: bold; user-select: none;
+        }
+
+        /* ── Step 1: Paste Lyrics ── */
+        .step1-win { width: min(480px, 100%); }
+        .step1-body { padding: 10px 12px 12px; }
+
+        .step-label {
+            font-size: 11px; font-weight: bold; color: #000080;
+            margin-bottom: 6px; letter-spacing: .5px;
+        }
+        .hint-txt {
+            font-size: 10px; color: #444; margin-bottom: 8px; line-height: 1.5;
+        }
+
+        textarea {
+            width: 100%; height: 200px;
+            background: #fff;
+            border: 2px solid; border-color: #808080 #fff #fff #808080;
+            font-family: 'Courier New', monospace; font-size: 12px;
+            padding: 8px; resize: vertical; color: #000; line-height: 1.7;
+        }
+        textarea:focus { outline: none; }
+
+        .win98-btn {
+            background: #c0c0c0;
+            border: 2px solid; border-color: #fff #808080 #808080 #fff;
+            font-family: 'Tahoma','Arial',sans-serif;
+            font-size: 11px; padding: 4px 16px; cursor: pointer;
+            color: #000; user-select: none; display: inline-flex;
+            align-items: center; justify-content: center; gap: 4px;
+        }
+        .win98-btn:hover { background: #d4d0c8; }
+        .win98-btn:active { border-color: #808080 #fff #fff #808080; }
+        .win98-btn.primary {
+            border: 2px solid; border-color: #fff #808080 #808080 #fff;
+            outline: 1px solid #000; outline-offset: -3px;
+        }
+
+        /* ── Step 2: Timing ── */
+        .step2-win { width: min(480px, 100%); }
+        .step2-body { padding: 10px 12px 14px; }
+
+        /* WinAmp mini-player inside step 2 */
+        .mini-player {
+            background: #1a1a1a; padding: 7px; margin-bottom: 10px;
+        }
+        .winamp-screen {
+            background: #0d0d0d;
+            border: 2px solid; border-color: #000 #3a3a3a #3a3a3a #000;
+            padding: 6px 9px; margin-bottom: 5px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .wa-song { color: #ff69b4; font-family: 'Courier New', monospace; font-size: 11px; text-shadow: 0 0 5px #ff69b4; }
+        .wa-time { color: #ff69b4; font-family: 'VT323', monospace; font-size: 26px; text-shadow: 0 0 8px #ff69b4; letter-spacing: 2px; }
+
+        .prog-wrap {
+            background: #111; border: 1px solid; border-color: #000 #2a2a2a #2a2a2a #000;
+            height: 9px; margin-bottom: 7px; cursor: pointer;
+        }
+        .prog-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(to right, #b8007a, #ff69b4); transition: width .2s;
+        }
+
+        .wa-controls {
+            display: flex; align-items: center; gap: 3px; margin-bottom: 0;
+        }
+        .w-btn {
+            background: #232323; border: 1px solid; border-color: #3d3d3d #111 #111 #3d3d3d;
+            color: #aaa; font-size: 10px; height: 22px; width: 30px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; user-select: none; font-family: 'Courier New', monospace;
+        }
+        .w-btn:hover { color: #ff69b4; }
+        .w-btn:active { border-color: #111 #3d3d3d #3d3d3d #111; }
+        .w-btn.play {
+            width: 44px; height: 26px; font-size: 15px;
+            background: #1e0033; border-color: #6a1a9a #1a0025 #1a0025 #6a1a9a;
+            color: #d580ff; text-shadow: 0 0 6px #d580ff;
+        }
+        .w-btn.play:hover { background: #2e0048; color: #ff69b4; }
+
+        /* Tap zone */
+        .tap-zone {
+            margin: 10px 0;
+            background: #1a0028;
+            border: 2px solid; border-color: #6a1a9a #1a0025 #1a0025 #6a1a9a;
+            padding: 12px 14px;
+        }
+        .current-line-label {
+            color: #808080; font-size: 10px; letter-spacing: 1px; margin-bottom: 5px;
+        }
+        .current-line-text {
+            color: #ff69b4; font-family: 'Courier New', monospace; font-size: 14px;
+            text-shadow: 0 0 8px rgba(255,105,180,.5); min-height: 20px;
+            margin-bottom: 8px; word-break: break-word;
+        }
+        .next-line-label { color: #444; font-size: 9px; letter-spacing: 1px; margin-bottom: 3px; }
+        .next-line-text { color: #666; font-family: 'Courier New', monospace; font-size: 11px; min-height: 16px; }
+
+        .tap-btn {
+            width: 100%; height: 54px; margin-top: 10px;
+            background: #2e0048;
+            border: 2px solid; border-color: #d580ff #4a0070 #4a0070 #d580ff;
+            color: #d580ff; font-family: 'VT323', monospace; font-size: 26px;
+            letter-spacing: 3px; cursor: pointer; user-select: none;
+            text-shadow: 0 0 8px rgba(213,128,255,.7);
+            transition: all .1s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .tap-btn:hover { background: #3e0060; color: #ff69b4; border-color: #ff69b4 #6a1a9a #6a1a9a #ff69b4; }
+        .tap-btn:active, .tap-btn.flash {
+            background: #ff69b4; color: #000; border-color: #fff #808080 #808080 #fff;
+            text-shadow: none;
+        }
+        .tap-btn:disabled { background: #111; color: #333; border-color: #222 #000 #000 #222; cursor: default; }
+
+        .progress-bar-outer {
+            background: #111; border: 1px solid #000; height: 6px; margin-top: 8px;
+        }
+        .progress-bar-inner {
+            height: 100%; width: 0%;
+            background: linear-gradient(to right, #6a1a9a, #d580ff);
+            transition: width .2s;
+        }
+        .tap-progress-label {
+            color: #555; font-size: 10px; margin-top: 4px; letter-spacing: 1px;
+        }
+
+        /* ── Step 3: Output ── */
+        .step3-win { width: min(600px, 100%); }
+        .step3-body { padding: 10px 12px 12px; }
+
+        .output-area {
+            width: 100%; height: 260px;
+            background: #0c0c0c;
+            border: 2px solid; border-color: #808080 #fff #fff #808080;
+            font-family: 'Courier New', monospace; font-size: 12px;
+            padding: 10px; color: #00e600; line-height: 1.7; resize: vertical;
+            text-shadow: 0 0 3px rgba(0,230,0,.4);
+        }
+
+        .copy-row { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
+        .copy-status { font-size: 11px; color: #006600; }
+
+        /* Timed list preview */
+        .timed-list {
+            max-height: 180px; overflow-y: auto;
+            background: #0c0c0c;
+            border: 2px solid; border-color: #808080 #fff #fff #808080;
+            padding: 6px 10px; margin-bottom: 8px;
+        }
+        .timed-list::-webkit-scrollbar { width: 12px; }
+        .timed-list::-webkit-scrollbar-track { background: #1a1a1a; }
+        .timed-list::-webkit-scrollbar-thumb { background: #333; border: 1px solid #555; }
+
+        .tl-row {
+            display: flex; gap: 8px; align-items: baseline;
+            font-family: 'Courier New', monospace; font-size: 11px;
+            border-bottom: 1px solid #1a1a1a; padding: 2px 0;
+        }
+        .tl-time { color: #d580ff; min-width: 48px; flex-shrink: 0; }
+        .tl-text { color: #c8c8c8; word-break: break-word; }
+        .tl-text.blank-row { color: #333; font-style: italic; }
+        .tl-undo {
+            margin-left: auto; color: #444; cursor: pointer; flex-shrink: 0; font-size: 10px;
+        }
+        .tl-undo:hover { color: #ff69b4; }
+
+        .back-link {
+            position: fixed; top: 8px; left: 10px; z-index: 999;
+            color: rgba(213,128,255,.5); font-family: 'VT323', monospace;
+            font-size: 14px; text-decoration: none; letter-spacing: 2px; transition: color .2s;
+        }
+        .back-link:hover { color: #ff69b4; }
+
+        .spacebar-hint {
+            color: #555; font-size: 10px; text-align: center; margin-top: 6px; letter-spacing: 1px;
+        }
+
+        /* finished banner */
+        .done-banner {
+            display: none;
+            background: #003300;
+            border: 2px solid; border-color: #00aa00 #004400 #004400 #00aa00;
+            padding: 8px 12px; margin-bottom: 10px;
+            font-size: 11px; color: #00e600;
+            font-family: 'Courier New', monospace;
+        }
+        .done-banner.show { display: block; }
+    </style>
+</head>
+<body>
+
+<a class="back-link" href="anniversary.html">← back</a>
+
+<div class="page-header">♡ &nbsp; lyrics timing tool &nbsp; ♡</div>
+
+<div class="layout">
+
+    <!-- ── STEP 1: Paste Lyrics ── -->
+    <div class="win-window step1-win">
+        <div class="title-bar">
+            <div class="title-bar-text"><span>📝</span> Step 1 — paste your lyrics</div>
+            <div class="title-bar-controls"><div class="tb-btn">_</div><div class="tb-btn">□</div><div class="tb-btn">✕</div></div>
+        </div>
+        <div class="step1-body">
+            <div class="hint-txt">
+                Paste each lyric line on its own line below.<br>
+                Leave a <strong>blank line</strong> where you want a gap/pause.<br>
+                Then click <strong>Load Lyrics →</strong> to begin timing.
+            </div>
+            <textarea id="lyricsInput" placeholder="I've been waiting for so long&#10;To finally feel this way&#10;&#10;And every time you look at me&#10;I forget what I was gonna say&#10;&#10;♡"></textarea>
+            <div style="display:flex;justify-content:flex-end;margin-top:8px;gap:6px;">
+                <button class="win98-btn" onclick="clearAll()">✕ clear</button>
+                <button class="win98-btn primary" onclick="loadLyrics()">Load Lyrics →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── STEP 2: Timing ── -->
+    <div class="win-window step2-win" id="step2Win">
+        <div class="title-bar" style="background:linear-gradient(to right,#2e0054 0%,#6b00b5 60%,#b36fe0 100%)">
+            <div class="title-bar-text"><span>⏱</span> Step 2 — time each line</div>
+            <div class="title-bar-controls"><div class="tb-btn">_</div><div class="tb-btn">✕</div></div>
+        </div>
+        <div class="step2-body">
+
+            <!-- Mini WinAmp -->
+            <div class="mini-player">
+                <div class="winamp-screen">
+                    <div class="wa-song" id="waSong">» ready «</div>
+                    <div class="wa-time" id="waTime">0:00</div>
+                </div>
+                <div class="prog-wrap" id="progWrap">
+                    <div class="prog-fill" id="progFill"></div>
+                </div>
+                <div class="wa-controls">
+                    <div class="w-btn" onclick="seekBack()">|◄</div>
+                    <div class="w-btn play" id="playBtn" onclick="togglePlay()">▶</div>
+                    <div class="w-btn" onclick="pauseOnly()">⏸</div>
+                    <div class="w-btn" onclick="stopAll()">■</div>
+                    <div class="w-btn" onclick="seekFwd()">►|</div>
+                </div>
+            </div>
+
+            <!-- Tap zone -->
+            <div class="tap-zone">
+                <div class="current-line-label">NEXT LINE TO TIME:</div>
+                <div class="current-line-text" id="currentLineDisplay">— load lyrics first —</div>
+                <div class="next-line-label">AFTER THAT:</div>
+                <div class="next-line-text" id="nextLineDisplay">—</div>
+                <button class="tap-btn" id="tapBtn" onclick="tapLine()" disabled>
+                    ♡ &nbsp; TAP
+                </button>
+                <div class="spacebar-hint">or press SPACEBAR to tap</div>
+                <div class="progress-bar-outer">
+                    <div class="progress-bar-inner" id="tapProgress"></div>
+                </div>
+                <div class="tap-progress-label" id="tapProgressLabel">0 / 0 lines timed</div>
+            </div>
+
+            <div class="done-banner" id="doneBanner">
+                ✓ all lines timed! scroll down to copy your LYRICS array →
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── Timed lines preview + Output ── -->
+    <div class="win-window step3-win" id="step3Win">
+        <div class="title-bar" style="background:linear-gradient(to right,#000 0%,#111 60%,#2a2a2a 100%)">
+            <div class="title-bar-text" style="font-family:'Courier New',monospace;"><span>🖤</span> Step 3 — copy into anniversary.html</div>
+            <div class="title-bar-controls"><div class="tb-btn">_</div><div class="tb-btn">✕</div></div>
+        </div>
+        <div class="step3-body">
+
+            <div class="step-label">TIMED LINES (click undo to redo a line)</div>
+            <div class="timed-list" id="timedList">
+                <div style="color:#333;font-family:'Courier New',monospace;font-size:11px;padding:4px 0;">no lines timed yet...</div>
+            </div>
+
+            <div class="step-label">GENERATED LYRICS ARRAY — paste into anniversary.html</div>
+            <textarea class="output-area" id="outputArea" readonly placeholder="// your LYRICS array will appear here after timing..."></textarea>
+
+            <div class="copy-row">
+                <button class="win98-btn primary" onclick="copyOutput()">📋 Copy to clipboard</button>
+                <button class="win98-btn" onclick="resetTimings()">↺ Reset timings</button>
+                <span class="copy-status" id="copyStatus"></span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Hidden audio -->
+<audio id="theAudio" src="120days.wav" preload="metadata"></audio>
+
+<script>
+    const audio    = document.getElementById('theAudio');
+    const playBtn  = document.getElementById('playBtn');
+    const waSong   = document.getElementById('waSong');
+    const waTime   = document.getElementById('waTime');
+    const progFill = document.getElementById('progFill');
+    const progWrap = document.getElementById('progWrap');
+    const tapBtn   = document.getElementById('tapBtn');
+    const currentLineDisplay = document.getElementById('currentLineDisplay');
+    const nextLineDisplay    = document.getElementById('nextLineDisplay');
+    const tapProgress        = document.getElementById('tapProgress');
+    const tapProgressLabel   = document.getElementById('tapProgressLabel');
+    const doneBanner         = document.getElementById('doneBanner');
+    const timedList          = document.getElementById('timedList');
+    const outputArea         = document.getElementById('outputArea');
+
+    let isPlaying = false;
+    let lines     = [];      // array of strings (from textarea)
+    let timed     = [];      // array of { text, time } — filled as user taps
+    let tapIdx    = 0;       // which line we're waiting to time next
+
+    audio.volume = 0.8;
+
+    // ── helpers ──
+    function fmtTime(s) {
+        const m  = Math.floor(s / 60);
+        const ss = Math.floor(s % 60).toString().padStart(2, '0');
+        return m + ':' + ss;
+    }
+
+    // ── audio controls ──
+    function togglePlay() {
+        if (isPlaying) pauseOnly();
+        else { audio.play(); isPlaying = true; playBtn.textContent = '⏸'; waSong.textContent = '♫  120 days  ♫'; }
+    }
+    function pauseOnly() {
+        audio.pause(); isPlaying = false; playBtn.textContent = '▶'; waSong.textContent = '» paused «';
+    }
+    function stopAll() {
+        audio.pause(); audio.currentTime = 0; isPlaying = false;
+        playBtn.textContent = '▶'; waSong.textContent = '» ready «';
+        progFill.style.width = '0%'; waTime.textContent = '0:00';
+    }
+    function seekBack() { audio.currentTime = Math.max(0, audio.currentTime - 5); }
+    function seekFwd()  { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 5); }
+
+    audio.addEventListener('timeupdate', () => {
+        waTime.textContent = fmtTime(audio.currentTime);
+        if (audio.duration) progFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    });
+    audio.addEventListener('ended', () => {
+        isPlaying = false; playBtn.textContent = '▶'; waSong.textContent = '» ended ♡ «';
+    });
+
+    progWrap.addEventListener('click', e => {
+        if (!audio.duration) return;
+        audio.currentTime = (e.offsetX / progWrap.offsetWidth) * audio.duration;
+    });
+
+    // ── Step 1: load lyrics ──
+    function loadLyrics() {
+        const raw = document.getElementById('lyricsInput').value;
+        if (!raw.trim()) { alert('Paste your lyrics first!'); return; }
+
+        lines  = raw.split('\n');  // keep blank lines as-is
+        timed  = [];
+        tapIdx = 0;
+
+        doneBanner.classList.remove('show');
+        renderTimedList();
+        updateTapUI();
+        tapBtn.disabled = false;
+        outputArea.value = '';
+        document.getElementById('copyStatus').textContent = '';
+    }
+
+    // ── Step 2: tap ──
+    function tapLine() {
+        if (tapIdx >= lines.length) return;
+
+        const t = parseFloat(audio.currentTime.toFixed(2));
+        const text = lines[tapIdx];
+
+        timed.push({ time: t, text: text });
+        tapIdx++;
+
+        flashBtn();
+        renderTimedList();
+        updateTapUI();
+        generateOutput();
+
+        if (tapIdx >= lines.length) {
+            doneBanner.classList.add('show');
+            tapBtn.disabled = true;
+            currentLineDisplay.textContent = '✓ all done!';
+            nextLineDisplay.textContent = '—';
+        }
+    }
+
+    function flashBtn() {
+        tapBtn.classList.add('flash');
+        setTimeout(() => tapBtn.classList.remove('flash'), 120);
+    }
+
+    function updateTapUI() {
+        const remaining = lines.length - tapIdx;
+        if (tapIdx < lines.length) {
+            const cur = lines[tapIdx];
+            currentLineDisplay.textContent = cur === '' ? '[ blank / pause line ]' : cur;
+            const nxt = lines[tapIdx + 1];
+            nextLineDisplay.textContent = nxt === undefined ? '—' : nxt === '' ? '[ blank / pause ]' : nxt;
+        }
+        tapProgress.style.width = lines.length > 0 ? (tapIdx / lines.length * 100) + '%' : '0%';
+        tapProgressLabel.textContent = tapIdx + ' / ' + lines.length + ' lines timed';
+    }
+
+    // ── Render timed list ──
+    function renderTimedList() {
+        if (timed.length === 0) {
+            timedList.innerHTML = '<div style="color:#333;font-family:\'Courier New\',monospace;font-size:11px;padding:4px 0;">no lines timed yet...</div>';
+            return;
+        }
+        timedList.innerHTML = timed.map((entry, i) => `
+            <div class="tl-row">
+                <span class="tl-time">${fmtTime(entry.time)} <span style="color:#444;font-size:9px;">(${entry.time}s)</span></span>
+                <span class="tl-text ${entry.text === '' ? 'blank-row' : ''}">${entry.text === '' ? '[ blank line ]' : escHtml(entry.text)}</span>
+                <span class="tl-undo" onclick="undoLine(${i})" title="undo this timing">↺</span>
+            </div>
+        `).join('');
+        timedList.scrollTop = timedList.scrollHeight;
+    }
+
+    function escHtml(s) {
+        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── Undo a specific line ──
+    function undoLine(idx) {
+        timed.splice(idx, 1);
+        tapIdx = timed.length;  // re-tap from that point
+        doneBanner.classList.remove('show');
+        tapBtn.disabled = tapIdx >= lines.length;
+        renderTimedList();
+        updateTapUI();
+        generateOutput();
+    }
+
+    // ── Generate output ──
+    function generateOutput() {
+        if (timed.length === 0) { outputArea.value = ''; return; }
+
+        const rows = timed.map(entry => {
+            const timeVal = entry.time;
+            const textVal = entry.text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return `    { time: ${timeVal.toFixed(1).padEnd(6)}, text: "${textVal}" }`;
+        }).join(',\n');
+
+        outputArea.value =
+`// ─────────────────────────────────────────────
+//  LYRICS — paste this into anniversary.html
+//  replacing the existing LYRICS array
+// ─────────────────────────────────────────────
+const LYRICS = [
+${rows}
+];`;
+    }
+
+    // ── Copy ──
+    function copyOutput() {
+        if (!outputArea.value) { document.getElementById('copyStatus').textContent = 'nothing to copy yet!'; return; }
+        navigator.clipboard.writeText(outputArea.value).then(() => {
+            document.getElementById('copyStatus').textContent = '✓ copied!';
+            setTimeout(() => document.getElementById('copyStatus').textContent = '', 2000);
+        });
+    }
+
+    // ── Reset timings only (keep lyrics) ──
+    function resetTimings() {
+        timed = []; tapIdx = 0;
+        doneBanner.classList.remove('show');
+        renderTimedList();
+        updateTapUI();
+        outputArea.value = '';
+        tapBtn.disabled = lines.length === 0;
+        document.getElementById('copyStatus').textContent = '';
+        if (lines.length > 0) currentLineDisplay.textContent = lines[0] === '' ? '[ blank / pause line ]' : lines[0];
+    }
+
+    function clearAll() {
+        document.getElementById('lyricsInput').value = '';
+        lines = []; timed = []; tapIdx = 0;
+        currentLineDisplay.textContent = '— load lyrics first —';
+        nextLineDisplay.textContent = '—';
+        tapBtn.disabled = true;
+        renderTimedList();
+        outputArea.value = '';
+        tapProgress.style.width = '0%';
+        tapProgressLabel.textContent = '0 / 0 lines timed';
+        doneBanner.classList.remove('show');
+    }
+
+    // ── Spacebar = tap ──
+    document.addEventListener('keydown', e => {
+        if (e.code === 'Space' && e.target.tagName !== 'TEXTAREA' && !tapBtn.disabled) {
+            e.preventDefault();
+            tapLine();
+        }
+    });
+
+    // init
+    updateTapUI();
+</script>
+
+</body>
+</html>
